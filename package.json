@@ -5,9 +5,10 @@
   "main": "yykaakoo.js",
   "author": "Marko",
   "scripts": {
-    "start": "npm-run-all --parallel webpack nodemon",
+    "start": "npm-run-all --parallel webpack:watch nodemon",
     "build": "webpack --config webpack.prod.js",
-    "webpack": "webpack --config webpack.dev.js --watch",
+    "webpack:watch": "webpack --config webpack.dev.js --watch",
+    "webpack": "webpack --config webpack.dev.js",
     "nodemon": "nodemon --exec node ./dist/yykaakoo.bundle.js"
   },
   "dependencies": {
@@ -26,6 +27,7 @@
     "npm-run-all": "^4.1.2",
     "source-map-support": "^0.5.0",
     "uglify-es-webpack-plugin": "^0.10.0",
-    "webpack": "^3.10.0"
+    "webpack": "^3.10.0",
+    "webpack-merge": "^4.1.1"
   }
 }

@@ -13,6 +13,6 @@ module.exports = {
     colors: true
   },
   plugins: [
-    new CleanWebpackPlugin(['dist']),
+    // new CleanWebpackPlugin(['dist']),
   ]
 }
