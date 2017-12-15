@@ -2,5 +2,8 @@
     "verbose": false,
     "ignore": [
         "*src/**"
-    ]
+    ],
+    "watch": [
+        "dist/yykaakoo.bundle.js"
+      ]
 }
