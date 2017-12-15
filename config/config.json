@@ -1,0 +1,9 @@
+{
+    "raiderIo": {
+        "url": "https://raider.io/api/v1/characters/profile?",
+        "guildName": "Ryöstöretki",
+        "realm": "Darksorrow",
+        "region": "eu",
+        "fields": "mythic_plus_scores"
+    }
+}
