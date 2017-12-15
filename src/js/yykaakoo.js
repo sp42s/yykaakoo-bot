@@ -1,4 +1,3 @@
-
 import * as Discord from 'discord.js'
 import { logger } from './lib/logger'
 import auth from '../../config/auth.json'
@@ -7,8 +6,8 @@ import { findAllMissingEnchants } from './commands/enchantsnitch'
 import { cheerUp } from './commands/random'
 
 
-logger.info(`bot startings ${new Date}`)
-// Initialize Discord Bot
+logger.info(`bot starting ${new Date}`)
+
 const client = new Discord.Client()
 
 client.on('ready', () => {
@@ -18,7 +17,7 @@ client.on('ready', () => {
 client.on('message', async message => {
     if (message.content.substring(0, 4) === '!123') {
         let reply;
-        let commands = {
+        let simpleCommands = {
             'lumoukset': findAllMissingEnchants,
             'parhaatscoret': findTopScores,
             'score': findRaiderIoScoreByUser,
@@ -29,13 +28,12 @@ client.on('message', async message => {
         if (!args[0]) return
         let command = args[0]
         logger.info(`command '${command}' from channel ${message.channel.name}, from user ${message.author.username}`)
-        logger.info(message.content)
-        logger.info(``)
 
-        if (commands[command]) {
+
+        if (simpleCommands[command]) {
             //args 1 should be a charname, its ok if its missing
             try {
-                reply = await commands[command](args[1])
+                reply = await simpleCommands[command](args[1])
             } catch (error) {
                 reply = error
             }
