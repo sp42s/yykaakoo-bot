@@ -8,9 +8,9 @@ import { logger } from '../lib/logger'
 import config from '../../../config/config.json'
 
 let findRaiderIoScoreByUser = (userId) => {
-  // userId = encodeURIComponent(userId)
-  logger.info(buildUrl(userId))
   return new Promise((resolve, reject) => {
+    if (!userId) reject('Kuka?')
+    logger.info(buildUrl(userId))
     axios.get(buildUrl(userId))
       .then(result => {
         let charName = result.data.name
@@ -22,7 +22,7 @@ let findRaiderIoScoreByUser = (userId) => {
       })
   })
 }
-
+ 
 
 let findTopScores = () => {
   return new Promise((resolve, reject) => {
@@ -45,7 +45,7 @@ let findTopScores = () => {
         }
         playerScores.sort(compareScoreDescending)
         let msg = generateTopPlayerScoreMessage(playerScores, 5)
-        console.log(msg)
+        console.log(`message is${msg}`)
         resolve(msg)
       }).catch(error => {
         console.log(error)
