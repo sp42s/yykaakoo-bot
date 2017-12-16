@@ -16,6 +16,7 @@
     "bluebird": "^3.5.1",
     "discord.io": "^2.5.3",
     "discord.js": "^11.2.1",
+    "moment": "^2.19.4",
     "winston": "^3.0.0-rc1"
   },
   "devDependencies": {

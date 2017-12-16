@@ -4,6 +4,7 @@ import auth from '../../config/auth.json'
 import { findTopScores, findRaiderIoScoreByUser } from './commands/raideriocaller'
 import { findAllMissingEnchants, buildUrl } from './commands/enchantsnitch'
 import { cheerUp } from './commands/random'
+import { WowLogs } from './commands'
 
 logger.info(`bot starting ${new Date}`)
 
@@ -20,19 +21,21 @@ client.on('message', async message => {
             'lumoukset': findAllMissingEnchants,
             'parhaatscoret': findTopScores,
             'score': findRaiderIoScoreByUser,
-            'kannusta': cheerUp
+            'kannusta': cheerUp,
+            'logs': WowLogs.handleMessage
         }
 
         let args = message.content.substring(4).trim().split(' ')
         if (!args[0]) return
         let command = args[0]
+        let params = args.slice(1, args.length)
         logger.info(`command '${command}' from channel ${message.channel.name}, from user ${message.author.username}`)
 
 
         if (simpleCommands[command]) {
             //args 1 should be a charname, its ok if its missing
             try {
-                reply = await simpleCommands[command](args[1], message.channel)
+                reply = await simpleCommands[command](args.length > 1 ? params : args[1], message.channel)
             } catch (error) {
                 reply = error
             }
