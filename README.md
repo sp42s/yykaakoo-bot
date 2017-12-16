@@ -4,8 +4,9 @@ Discord bot for some fun times
 1. npm install
 
 2. add config/auth.json with your discord bot token and [wow api key](https://dev.battle.net/ )
-auth.json example
+
 ```javascript
+auth.json example
 {
     "discordBotToken": "adasdasdasdasdasdasdasdas.sdf.sfsdfsdfsdfsd",
     "masheryKey": "ertyuiopådcfvgbhnmfghjmkl"
