@@ -2,9 +2,8 @@ import * as Discord from 'discord.js'
 import { logger } from './lib/logger'
 import auth from '../../config/auth.json'
 import { findTopScores, findRaiderIoScoreByUser } from './commands/raideriocaller'
-import { findAllMissingEnchants } from './commands/enchantsnitch'
+import { findAllMissingEnchants, buildUrl } from './commands/enchantsnitch'
 import { cheerUp } from './commands/random'
-
 
 logger.info(`bot starting ${new Date}`)
 
@@ -33,18 +32,20 @@ client.on('message', async message => {
         if (simpleCommands[command]) {
             //args 1 should be a charname, its ok if its missing
             try {
-                reply = await simpleCommands[command](args[1])
+                reply = await simpleCommands[command](args[1], message.channel)
             } catch (error) {
                 reply = error
             }
         } else {
+            reply = 'Koitappa jotain näistä: ' + Object.keys(simpleCommands).reduce((s1, s2) => s1 + ', ' + s2)
             logger.info(`no such command '${command}'`)
-            return
         }
 
-        message.channel.send(reply)
-        .then(msg => console.log(`Sent a reply as ${msg.author}`))
-        .catch(console.error)
+        if (reply && reply.length > 0) {
+            message.channel.send(reply)
+                .then(msg => console.log(`Sent a reply as ${msg.author}`))
+                .catch(console.error)
+        }
     }
 });
 

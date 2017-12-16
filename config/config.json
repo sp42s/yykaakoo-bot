@@ -5,5 +5,15 @@
         "realm": "Darksorrow",
         "region": "eu",
         "fields": "mythic_plus_scores"
+    },
+    "mashery": {
+        "baseurl": "https://eu.api.battle.net",
+        "itempath": "/wow/character",
+        "memberspath": "/wow/guild",
+        "guildname": "Ryöstöretki",
+        "realm": "Darksorrow",
+        "locale": "en_GB",
+        "itemfields": "items",
+        "memberfields": "members"
     }
 }
