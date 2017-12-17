@@ -4,6 +4,9 @@ config/auth.json
 #build dir
 dist/
 
+#vscode
+.vscode/
+
 # Logs
 logs
 *.log
