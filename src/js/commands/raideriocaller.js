@@ -28,14 +28,14 @@ let findTopScores = () => {
   return new Promise((resolve, reject) => {
     let axiosPromises = []
     players.forEach((player, i) => {
-      setTimeout(function () {
+      setTimeout(() => {
         logger.info(`fetching ${buildUrl(player)}`)
         let axiosPromise = axios.get(buildUrl(player))
         axiosPromises.push(axiosPromise)
       }, 100 * i)
     });
     logger.info(`promisecount ${axiosPromises.length}`)
-    setTimeout(function () {
+    setTimeout(() => {
       Promise.all(axiosPromises).then(results => {
         let playerScores = [];
         for (const result of results) {
