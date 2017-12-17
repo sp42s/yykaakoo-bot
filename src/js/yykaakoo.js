@@ -1,6 +1,6 @@
 import * as Discord from 'discord.js'
 import { logger } from './lib/logger'
-import auth from '../../config/auth.json'
+import config from '../../config/auth.json'
 import { findTopScores, findRaiderIoScoreByUser } from './commands/raideriocaller'
 import { findAllMissingEnchants, buildUrl } from './commands/enchantsnitch'
 import { cheerUp } from './commands/random'
@@ -15,7 +15,7 @@ client.on('ready', () => {
 })
 
 client.on('message', async message => {
-    if (message.content.substring(0, 4) === '!123') {
+    if (message.content.substring(0, 1) === '§') {
         let reply;
         let simpleCommands = {
             'lumoukset': findAllMissingEnchants,
@@ -25,7 +25,7 @@ client.on('message', async message => {
             'logs': WowLogs.handleMessage
         }
 
-        let args = message.content.substring(4).trim().split(' ')
+        let args = message.content.substring(1).trim().split(' ')
         if (!args[0]) return
         let command = args[0]
         let params = args.slice(1, args.length)
@@ -37,7 +37,8 @@ client.on('message', async message => {
             try {
                 reply = await simpleCommands[command](args.length > 1 ? params : args[1], message.channel)
             } catch (error) {
-                reply = error
+                logger.error(error.stack)
+                reply = 'Nyt tapahtui ikävä kyllä niin että jokin virhe esti minua vastaamasta kyselyysi 😞'
             }
         } else {
             reply = 'Koitappa jotain näistä: ' + Object.keys(simpleCommands).reduce((s1, s2) => s1 + ', ' + s2)
@@ -52,7 +53,7 @@ client.on('message', async message => {
     }
 });
 
-client.login(auth.discordBotToken)
+client.login(config.discordBotToken)
 
 let idToMention = (id) => {
     return `<@${id}>`
