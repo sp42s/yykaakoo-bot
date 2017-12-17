@@ -1,12 +1,12 @@
+"use strict"
 import { logger } from '../lib/logger'
 const { URL } = require('url');
-import auth from '../../../config/auth.json'
-import config from '../../../config/config.json'
+import auth from '../../../config/auth'
+import config from '../../../config/config'
 import * as axios from 'axios'
 import * as Promise from 'bluebird'
 import { setTimeout } from 'timers';
 
-Promise.longStackTraces();
 
 let findAllMissingEnchants = async (firstParam, chatChannel) => {
     let result
@@ -21,11 +21,11 @@ let findAllMissingEnchants = async (firstParam, chatChannel) => {
     guildData = guildData.filter(member => member.rank <= 3)
     guildData = guildData.filter(member => member.character.level == 110)
 
-    console.log(`guild data length ${guildData.length}`)
+    logger.info(`guild data length ${guildData.length}`)
     let enchantData = await fetchEnchantData(guildData)
     enchantData = enchantData.filter(data => data.missingEnchants.length > 0)
     let msg = enchantDataToString(enchantData)
-    console.log(`got enchant data`)
+    logger.info(`got enchant data`)
     let suffix = 'Muistakaa lumoukset tai muuten! 👮'
 
     chatChannel.send(msg)
@@ -48,7 +48,7 @@ function enchantDataToString(enchantData) {
     let body = ''
     logger.info('formatting enchants ')
     for (const enchant of enchantData) {
-        console.log(enchant)
+        logger.info(enchant)
         let name = enchant.name
         let missing = enchant.missingEnchants
         let enchantString = missing.reduce((s1, s2) => s1 + ', ' + s2)
@@ -64,7 +64,6 @@ function enchantDataToString(enchantData) {
 }
 
 
-console.log(getItemDataUrl('Inath'))
 
 function fetchEnchantData(guildData) {
     let axiosPromises = []
@@ -82,7 +81,7 @@ function fetchEnchantData(guildData) {
                 let missingEnchants = []
                 for (const itemResult of itemResults) {
                     let itemData = itemResult.data
-                    missingEnchants.push(parseAndSendEnchantSnitchMessage(itemData))
+                    missingEnchants.push(collectEnchantData(itemData))
                 }
                 resolve(missingEnchants)
             }).catch(error => {
@@ -93,7 +92,7 @@ function fetchEnchantData(guildData) {
     })
 }
 
-function parseAndSendEnchantSnitchMessage(itemData) {
+function collectEnchantData(itemData) {
     let enchantData = {
         "name": itemData.name,
         "missingEnchants": []
