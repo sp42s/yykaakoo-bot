@@ -1,7 +1,7 @@
 import * as Discord from 'discord.js'
 import { logger } from './lib/logger'
 import config from '../../config/auth.json'
-import { findTopScores, findRaiderIoScoreByUser } from './commands/raideriocaller'
+import { findTopScores, findSingleScore } from './commands/raideriocaller'
 import { findAllMissingEnchants, buildUrl } from './commands/enchantsnitch'
 import { cheerUp } from './commands/random'
 import { WowLogs } from './commands'
@@ -20,22 +20,23 @@ client.on('message', async message => {
         let simpleCommands = {
             'lumoukset': findAllMissingEnchants,
             'parhaatscoret': findTopScores,
-            'score': findRaiderIoScoreByUser,
+            'score': findSingleScore,
             'kannusta': cheerUp,
             'logs': WowLogs.handleMessage
         }
 
         let args = message.content.substring(1).trim().split(' ')
         if (!args[0]) return
+        logger.info(`received parms ${args}`)
         let command = args[0]
         let params = args.slice(1, args.length)
         logger.info(`command '${command}' from channel ${message.channel.name}, from user ${message.author.username}`)
-
-
+        let sentMessage = await message.channel.send('Hetki, käsittelen...')
         if (simpleCommands[command]) {
             //args 1 should be a charname, its ok if its missing
+            
             try {
-                reply = await simpleCommands[command](args.length > 1 ? params : args[1], message.channel)
+                reply = await simpleCommands[command](args.length > 1 ? params : args[1], sentMessage)
             } catch (error) {
                 logger.error(error.stack)
                 reply = 'Nyt tapahtui ikävä kyllä niin että jokin virhe esti minua vastaamasta kyselyysi 😞'
@@ -46,7 +47,7 @@ client.on('message', async message => {
         }
 
         if (reply && reply.length > 0) {
-            message.channel.send(reply)
+            sentMessage.edit(reply)
                 .then(msg => console.log(`Sent a reply as ${msg.author}`))
                 .catch(console.error)
         }

@@ -8,7 +8,7 @@ import * as Promise from 'bluebird'
 import { setTimeout } from 'timers';
 
 
-let findAllMissingEnchants = async (firstParam, chatChannel) => {
+let findAllMissingEnchants = async (firstParam, messageToEdit) => {
     let result
     try {
         result = await axios.get(getGuildDataUrl())
@@ -28,7 +28,7 @@ let findAllMissingEnchants = async (firstParam, chatChannel) => {
     logger.info(`got enchant data`)
     let suffix = 'Muistakaa lumoukset tai muuten! 👮'
 
-    chatChannel.send(msg)
+    messageToEdit.edit(msg)
         .then(msg => {
             setTimeout(() => {
                 msg.edit(msg.content + suffix)
@@ -48,7 +48,6 @@ function enchantDataToString(enchantData) {
     let body = ''
     logger.info('formatting enchants ')
     for (const enchant of enchantData) {
-        logger.info(enchant)
         let name = enchant.name
         let missing = enchant.missingEnchants
         let enchantString = missing.reduce((s1, s2) => s1 + ', ' + s2)
@@ -136,30 +135,6 @@ function getGuildDataUrl() {
     address.searchParams.append('apikey', auth.masheryKey)
 
     return address.href
-}
-
-function scheduleRequests(axiosInstance, intervalMs) {
-    let lastInvocationTime = undefined;
-
-    const scheduler = (config) => {
-        const now = Date.now();
-        if (lastInvocationTime) {
-            lastInvocationTime += intervalMs;
-            const waitPeriodForThisRequest = lastInvocationTime - now;
-            if (waitPeriodForThisRequest > 0) {
-                return new Promise((resolve) => {
-                    setTimeout(
-                        () => resolve(config),
-                        waitPeriodForThisRequest);
-                });
-            }
-        }
-
-        lastInvocationTime = now;
-        return config;
-    }
-
-    axiosInstance.interceptors.request.use(scheduler);
 }
 
 export { findAllMissingEnchants } 
