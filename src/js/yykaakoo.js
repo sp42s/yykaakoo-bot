@@ -1,7 +1,7 @@
 import * as Discord from 'discord.js'
 import { logger } from './lib/logger'
 import config from '../../config/auth.json'
-import { findTopScores, findSingleScore } from './commands/raideriocaller'
+import { handleTopScoresCommand, handleSingleScoreCommand, handleWeeklyRunCommand } from './commands/raideriocaller'
 import { findAllMissingEnchants, buildUrl } from './commands/enchantsnitch'
 import { cheerUp } from './commands/random'
 import { WowLogs } from './commands'
@@ -15,14 +15,20 @@ client.on('ready', () => {
 })
 
 client.on('message', async message => {
+    if (message.content.indexOf('😭') > -1) {   
+        try {await message.react('😭')} catch (e) {console.error(e)}
+        //try {await message.channel.send(`Viestejä olipi ${message.channel.messages.length}`)} catch (e) {console.error(e)}
+
+    }
     if (message.content.substring(0, 1) === '§') {
         let reply;
         let simpleCommands = {
             'lumoukset': findAllMissingEnchants,
-            'parhaatscoret': findTopScores,
-            'score': findSingleScore,
+            'parhaatscoret': handleTopScoresCommand,
+            'score': handleSingleScoreCommand,
             'kannusta': cheerUp,
-            'logs': WowLogs.handleMessage
+            'logs': WowLogs.handleMessage,
+            'viikonmytyt': handleWeeklyRunCommand
         }
 
         let args = message.content.substring(1).trim().split(' ')
@@ -36,7 +42,7 @@ client.on('message', async message => {
             //args 1 should be a charname, its ok if its missing
             
             try {
-                reply = await simpleCommands[command](args.length > 1 ? params : args[1], sentMessage)
+                reply = await simpleCommands[command](params, sentMessage)
             } catch (error) {
                 logger.error(error.stack)
                 reply = 'Nyt tapahtui ikävä kyllä niin että jokin virhe esti minua vastaamasta kyselyysi 😞'
@@ -48,7 +54,7 @@ client.on('message', async message => {
 
         if (reply && reply.length > 0) {
             sentMessage.edit(reply)
-                .then(msg => console.log(`Sent a reply as ${msg.author}`))
+                .then(msg => console.log(`end of yykaakoo sent a reply of [${msg.content}]`))
                 .catch(console.error)
         }
     }
