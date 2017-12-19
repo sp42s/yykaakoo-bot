@@ -1,7 +1,12 @@
 import * as Discord from 'discord.js'
 import { logger } from './lib/logger'
 import config from '../../config/auth.json'
-import { handleTopScoresCommand, handleSingleScoreCommand, handleWeeklyRunCommand } from './commands/raideriocaller'
+import {
+    handleTopScoresCommand,
+    handleSingleScoreCommand,
+    handleWeeklyRunCommand,
+    handleMissingMythicsCommand
+} from './commands/raideriocaller'
 import { findAllMissingEnchants, buildUrl } from './commands/enchantsnitch'
 import { cheerUp } from './commands/random'
 import { WowLogs } from './commands'
@@ -15,8 +20,8 @@ client.on('ready', () => {
 })
 
 client.on('message', async message => {
-    if (message.content.indexOf('😭') > -1) {   
-        try {await message.react('😭')} catch (e) {console.error(e)}
+    if (message.content.indexOf('😭') > -1) {
+        try { await message.react('😭') } catch (e) { console.error(e) }
         //try {await message.channel.send(`Viestejä olipi ${message.channel.messages.length}`)} catch (e) {console.error(e)}
 
     }
@@ -28,7 +33,8 @@ client.on('message', async message => {
             'score': handleSingleScoreCommand,
             'kannusta': cheerUp,
             'logs': WowLogs.handleMessage,
-            'viikonmytyt': handleWeeklyRunCommand
+            'viikonmytyt': handleWeeklyRunCommand,
+            'onnettomat': handleMissingMythicsCommand
         }
 
         let args = message.content.substring(1).trim().split(' ')
@@ -39,8 +45,6 @@ client.on('message', async message => {
         logger.info(`command '${command}' from channel ${message.channel.name}, from user ${message.author.username}`)
         let sentMessage = await message.channel.send('Hetki, käsittelen...')
         if (simpleCommands[command]) {
-            //args 1 should be a charname, its ok if its missing
-            
             try {
                 reply = await simpleCommands[command](params, sentMessage)
             } catch (error) {

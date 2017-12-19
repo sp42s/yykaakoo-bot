@@ -20,7 +20,7 @@ let handleSingleScoreCommand = async (params) => {
     let score = result.data.mythic_plus_scores.all
     return `${name} ${score}`
   } catch (error) {
-    return error
+    throw error
   }
 }
 
@@ -61,9 +61,46 @@ let handleWeeklyRunCommand = async (params, messageToEdit) => {
     return message
   } catch (error) {
     console.log(error)
-    return error
+    throw error
   }
   return
+}
+
+let handleMissingMythicsCommand = async (params) => {
+  try {
+    let result = await fetchRunsForEveryone()
+    result = result.filter(player => !player.runs.length || player.runs.length < 1 || player.runs[0].mythic_level < 15)
+    result.forEach(console.log)
+    result = result.map(player => player.name)
+    result.sort()
+    let msg  = result.reduce((s1, s2) => s1 + '\n' + s2)
+    msg = 'Näiltä hahmoilta puuttuu +15 myttynen, aijjai...' + '```' + msg + '```'
+    return msg
+  } catch (error) {
+    throw error
+  }
+}
+
+function fetchRunsForEveryone() {
+  return new Promise((resolve, reject) => {
+    let playersRuns = []
+    let axiosPromises = []
+    players.forEach((player, i) => {
+      axiosPromises.push(weeklyTopByCharname(player, i))
+    })
+    Promise.all(axiosPromises).then(results => {
+      let playerScores = [];
+      for (const result of results) {
+        playersRuns.push(result)
+      }
+      resolve(playersRuns)
+    }).catch(error => {
+      reject(error)
+    })
+  }).catch(error => {
+    console.log(error)
+    reject('Jotain meni vikaan, pahoittelen...')
+  })
 }
 
 function getPrefix(name, dungeonStrings) {
@@ -102,7 +139,7 @@ function weeklyTopByCharname(charName, delay) {
   return new Promise((resolve, reject) => {
     if (!charName) reject('Ketä?')
     setTimeout(() => {
-      let topUrl = buildUrl(charName, weeklyTopThree);
+      let topUrl = buildUrl(charName, weeklyTopThree)
       axios.get(topUrl)
         .then(result => {
           let name = result.data.name
@@ -114,7 +151,7 @@ function weeklyTopByCharname(charName, delay) {
           console.error(error.stack)
           reject('Tais ol joku olematon nimi, miksi kiusit 😭')
         })
-    }, delay * 15)
+    }, delay * 25)
   })
 }
 
@@ -175,4 +212,9 @@ function compareScoreDescending(playerData1, playerData2) {
   return comparison
 }
 
-export { handleSingleScoreCommand, handleTopScoresCommand, handleWeeklyRunCommand }
+export {
+  handleSingleScoreCommand,
+  handleTopScoresCommand,
+  handleWeeklyRunCommand,
+  handleMissingMythicsCommand
+}
