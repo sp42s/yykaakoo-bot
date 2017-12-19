@@ -152,7 +152,7 @@ function weeklyTopByCharname(charName, delay) {
           let errDesc = ' E'
           if (error.response) errDesc += error.response.status
           else errDesc += '000'
-          let name = charName + errDesc
+          let name = charName.padEnd(15) + errDesc
           let runs = []
           let data = { name, runs }
           resolve(data)
@@ -176,7 +176,7 @@ function findRaiderIoScoreByUser(charName, delay = 0) {
           else errDesc += '000'
           let mockResult = {
             data: {
-              name: charName + errDesc,
+              name: charName.padEnd(15) + errDesc,
               mythic_plus_scores: {
                 all: 0
               }
