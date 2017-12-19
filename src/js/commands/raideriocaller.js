@@ -73,8 +73,9 @@ let handleMissingMythicsCommand = async (params) => {
     result.forEach(console.log)
     result = result.map(player => player.name)
     result.sort()
-    let msg  = result.reduce((s1, s2) => s1 + '\n' + s2)
-    msg = 'Näiltä hahmoilta puuttuu +15 myttynen, aijjai...' + '```' + msg + '```'
+    let msg = result.reduce((s1, s2) => s1 + '\n' + s2)
+
+    msg = 'Näiltä hahmoilta puuttuu +15 myttynen, aijjai...' + '```\n' + msg.trim() + '\n```'
     return msg
   } catch (error) {
     throw error
@@ -98,8 +99,7 @@ function fetchRunsForEveryone() {
       reject(error)
     })
   }).catch(error => {
-    console.log(error)
-    reject('Jotain meni vikaan, pahoittelen...')
+    throw error
   })
 }
 
@@ -140,6 +140,7 @@ function weeklyTopByCharname(charName, delay) {
     if (!charName) reject('Ketä?')
     setTimeout(() => {
       let topUrl = buildUrl(charName, weeklyTopThree)
+      console.log(topUrl)
       axios.get(topUrl)
         .then(result => {
           let name = result.data.name
@@ -147,31 +148,43 @@ function weeklyTopByCharname(charName, delay) {
           let data = { name, runs }
           resolve(data)
         }).catch(function (error) {
-          console.error('Error finding weeklytop')
-          console.error(error.stack)
-          reject('Tais ol joku olematon nimi, miksi kiusit 😭')
+          console.error(`Error finding weeklytop for url ${topUrl}`)
+          let errDesc = ' E'
+          if (error.response) errDesc += error.response.status
+          else errDesc += '000'
+          let name = charName + errDesc
+          let runs = []
+          let data = { name, runs }
+          resolve(data)
         })
-    }, delay * 25)
+    }, delay * 50)
   })
 }
 
-function findRaiderIoScoreByUser(userId, delay = 0) {
+function findRaiderIoScoreByUser(charName, delay = 0) {
   return new Promise((resolve, reject) => {
-    if (!userId) reject('Ketä?')
+    if (!charName) reject('Ketä?')
     setTimeout(() => {
-      let scoreUrl = buildUrl(userId, scoresField)
-      console.log(scoreUrl)
+      let scoreUrl = buildUrl(charName, scoresField)
       axios.get(scoreUrl)
         .then(result => {
-          let charName = result.data.name
-          let score = result.data.mythic_plus_scores.all
           resolve(result)
         }).catch(function (error) {
-          console.error('Error finding scorebyuser')
-          console.error(error.stack)
-          reject('Tais ol joku olematon nimi, miksi kiusit 😭')
+          console.error(`Error finding scorebyuser for url ${scoreUrl}`)
+          let errDesc = ' E'
+          if (error.response) errDesc += error.response.status
+          else errDesc += '000'
+          let mockResult = {
+            data: {
+              name: charName + errDesc,
+              mythic_plus_scores: {
+                all: 0
+              }
+            }
+          }
+          resolve(mockResult)
         })
-    }, delay * 15)
+    }, delay * 50)
   })
 }
 
