@@ -3,8 +3,7 @@
         "url": "https://raider.io/api/v1/characters/profile?",
         "guildName": "Ryöstöretki",
         "realm": "Darksorrow",
-        "region": "eu",
-        "fields": "mythic_plus_scores"
+        "region": "eu"
     },
     "mashery": {
         "baseurl": "https://eu.api.battle.net",
@@ -15,5 +14,8 @@
         "locale": "en_GB",
         "itemfields": "items",
         "memberfields": "members"
+    },
+    "weather": {
+        "baseurl": "http://api.openweathermap.org/data/2.5/weather"
     }
 }
