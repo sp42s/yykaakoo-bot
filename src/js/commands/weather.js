@@ -7,7 +7,7 @@ const { URL } = require('url');
 
 let handleCurrentWeatherCommand = async (params) => {
     if (!params || !params[0]) return 'Missä?'
-    let city = params[0]
+    let city = params.reduce(acc, param => `${acc} ${param}`)
     let weatherUrl = getWeatherDataUrl(city)
     let data = {}
     try {
