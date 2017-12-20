@@ -7,11 +7,19 @@ let cheerUp = (userId) => {
     })
 }
     
+let mock = async (params, sentMessage, originalMessage) => {
+    if (!params || !params[0]) return 'Ketä?'
+    try {
+        await sentMessage.delete()
+        await originalMessage.reply(`Soot iha tymä!`)
+    } catch (error) {
+        throw error
+    }
+}
 
 
 
 
 
 
-
-export { cheerUp }
+export { cheerUp, mock }

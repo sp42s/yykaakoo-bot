@@ -9,7 +9,7 @@ import {
 } from './commands/raideriocaller'
 import { findAllMissingEnchants, buildUrl } from './commands/enchantsnitch'
 import { handleCurrentWeatherCommand } from './commands/weather'
-import { cheerUp } from './commands/random'
+import { cheerUp, mock } from './commands/random'
 import { WowLogs } from './commands'
 
 logger.info(`bot starting ${new Date}`)
@@ -33,6 +33,7 @@ client.on('message', async message => {
             'parhaatscoret': handleTopScoresCommand,
             'score': handleSingleScoreCommand,
             'kannusta': cheerUp,
+            'hauku': mock,
             'logs': WowLogs.handleMessage,
             'viikonmytyt': handleWeeklyRunCommand,
             'onnettomat': handleMissingMythicsCommand,
@@ -48,7 +49,7 @@ client.on('message', async message => {
         let sentMessage = await message.channel.send('Hetki, käsittelen...')
         if (simpleCommands[command]) {
             try {
-                reply = await simpleCommands[command](params, sentMessage)
+                reply = await simpleCommands[command](params, sentMessage, message)
             } catch (error) {
                 logger.error(error.stack)
                 reply = 'Nyt tapahtui ikävä kyllä niin että jokin virhe esti minua vastaamasta kyselyysi 😞'
