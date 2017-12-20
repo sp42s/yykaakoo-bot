@@ -7,8 +7,10 @@ const { URL } = require('url');
 
 let handleCurrentWeatherCommand = async (params) => {
     if (!params || !params[0]) return 'Missä?'
-    let city = params.reduce((s1, s2) => `${s1}, ${s2}`)
+    let city = params.reduce((s1, s2) => `${s1} ${s2}`)
+    logger.info(`getting weather for city [${city}]`)
     let weatherUrl = getWeatherDataUrl(city)
+    logger.info(weatherUrl)
     let data = {}
     try {
         let result = await axios.get(weatherUrl)
