@@ -2,8 +2,8 @@ import * as path from 'path'
 import * as axios from 'axios'
 import * as players from '../../../config/players.json'
 import * as prefixes from '../../../config/prefixes.json'
-import * as querystring from 'querystring'
 import * as Promise from 'bluebird'
+import * as querystring from 'querystring'
 import { logger } from '../lib/logger'
 import config from '../../../config/config.json'
 
@@ -13,11 +13,11 @@ const weeklyTopThree = 'mythic_plus_weekly_highest_level_runs'
 
 let handleSingleScoreCommand = async (params) => {
   if (!params || !params[0]) return 'Ketä?'
-  let charName = params[0]
+  const charName = params[0]
   try {
-    let result = await findRaiderIoScoreByUser(charName, 0)
-    let name = result.data.name
-    let score = result.data.mythic_plus_scores.all
+    const result = await findRaiderIoScoreByUser(charName, 0)
+    const name = result.data.name
+    const score = result.data.mythic_plus_scores.all
     return `${name} ${score}`
   } catch (error) {
     throw error

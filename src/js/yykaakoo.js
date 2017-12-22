@@ -9,6 +9,7 @@ import {
 } from './commands/raideriocaller'
 import { findAllMissingEnchants, buildUrl } from './commands/enchantsnitch'
 import { handleCurrentWeatherCommand } from './commands/weather'
+import { handlePriceCommand } from './commands/monopolymoney'
 import { cheerUp, mock } from './commands/random'
 import { WowLogs } from './commands'
 
@@ -37,7 +38,8 @@ client.on('message', async message => {
             'logs': WowLogs.handleMessage,
             'viikonmytyt': handleWeeklyRunCommand,
             'onnettomat': handleMissingMythicsCommand,
-            'sää': handleCurrentWeatherCommand
+            'sää': handleCurrentWeatherCommand,
+            'hinta': handlePriceCommand
         }
 
         let args = message.content.substring(1).trim().split(' ')
