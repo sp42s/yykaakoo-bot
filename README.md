@@ -9,7 +9,9 @@ Discord bot for some fun times
 auth.json example
 {
     "discordBotToken": "adasdasdasdasdasdasdasdas.sdf.sfsdfsdfsdfsd",
-    "masheryKey": "ertyuiopådcfvgbhnmfghjmkl"
+    "masheryKey": "ertyuiopådcfvgbhnmfghjmkl",
+    "warcraftlogsKey": "sdfrrw45rsw3454w35t4sw3w35",
+    "openweathermapKey": "56767u8r6ftu8r76u75r67yu5u85tr"
 }
 ```
 3. npm run webpack once to generate files then
