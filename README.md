@@ -1,4 +1,4 @@
-# yykaakaa-bot
+# yykaakoo-bot
 Discord bot for some fun times
 
 1. npm install
