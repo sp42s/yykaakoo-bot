@@ -18,3 +18,4 @@ auth.json example
 
 4. npm run start to start webpack watch and nodemon to auto restart the bot after transpile.
 
+test update
