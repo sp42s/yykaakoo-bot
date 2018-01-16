@@ -1,3 +1,4 @@
+//@ts-check
 import * as Discord from 'discord.js'
 import { logger } from './lib/logger'
 import config from '../../config/auth.json'
@@ -7,7 +8,7 @@ import {
     handleWeeklyRunCommand,
     handleMissingMythicsCommand
 } from './commands/raideriocaller'
-import { findAllMissingEnchants, buildUrl } from './commands/enchantsnitch'
+import { findAllMissingEnchants } from './commands/enchantsnitch'
 import { handleCurrentWeatherCommand } from './commands/weather'
 import { handlePriceCommand } from './commands/monopolymoney'
 import { cheerUp, mock } from './commands/random'

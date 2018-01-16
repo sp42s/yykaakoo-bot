@@ -12,7 +12,7 @@ let handlePriceCommand = async (params) => {
     if (!params || !params[0]) {
 
     } else {
-        coin = params.reduce((s1, s2) => `${s1} ${s2}`)
+        coin = params.reduce((s1, s2) => `${s1}-${s2}`)
     }
 
     try {
@@ -26,15 +26,17 @@ let handlePriceCommand = async (params) => {
     }
 }
 
-async function getPrice( all = true, coin) {
-    let count = all ? 5 : 100
-    const priceResult = await getPrices(count)
-    const prices = priceResult.data
+async function getPrice(all = true, coin) {
     let coinData
     if (all) {
+        let count = all ? 5 : 100
+        const priceResult = await getPrices(false, count)
+        const prices = priceResult.data
         coinData = prices
     } else {
-        coinData = [prices.find(price => price.name.toUpperCase() === coin.toUpperCase())]
+        const priceResult = await getPrices(coin)
+        const prices = priceResult.data
+        coinData = prices
     }
     let msg = ``
     if (coinData) {
@@ -42,16 +44,16 @@ async function getPrice( all = true, coin) {
     }
     else {
         msg = `tööt`
-    } 
+    }
     return block + msg + block
 }
 
 function formatPrices(coinDataAr) {
     let msg = ``
     console.log(`${JSON.stringify(coinDataAr)}`)
-    const nameLengths = coinDataAr.map(coinData => coinData.name ? coinData.name.length: 0)
+    const nameLengths = coinDataAr.map(coinData => coinData.name ? coinData.name.length : 0)
     const namePad = Math.max(...nameLengths) + 1 < 10 ? 10 : Math.max(...nameLengths) + 1
-    const PriceLengths = coinDataAr.map(coinData => coinData.price_usd ? coinData.price_usd.length: 0)
+    const PriceLengths = coinDataAr.map(coinData => coinData.price_usd ? coinData.price_usd.length : 0)
     const pricePad = Math.max(...PriceLengths) + 1
     console.log(`left ${namePad} pad right ${pricePad}`)
     for (const coinData of coinDataAr) {
@@ -64,18 +66,21 @@ function formatPrices(coinDataAr) {
     return msg
 }
 
-async function getPrices(count) {
+async function getPrices(coinName, count) {
     try {
-        return await axios.get(buildUrl(count))
+        return await axios.get(buildUrl(coinName, count))
     } catch (error) {
         throw error
     }
 }
 
 
-function buildUrl(count) {
-    return 'https://api.coinmarketcap.com/v1/ticker/?limit=' + count
+function buildUrl(coinName, count) {
+    if (coinName)
+        return 'https://api.coinmarketcap.com/v1/ticker/' + coinName
+    else
+        return 'https://api.coinmarketcap.com/v1/ticker/?limit=' + count
 }
 export {
     handlePriceCommand
-  }
+}

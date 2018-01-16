@@ -42,7 +42,7 @@ let handleTopScoresCommand = () => {
       }
       playerScores.sort(compareScoreDescending)
       let msg = generateTopPlayerScoreMessage(playerScores, 5)
-      console.log(`message is${msg}`)
+      console.log(`message is ${msg}`)
       resolve(msg)
     }).catch(error => {
       console.log(error)

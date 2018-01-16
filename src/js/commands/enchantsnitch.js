@@ -1,3 +1,4 @@
+//@ts-check
 "use strict"
 import { logger } from '../lib/logger'
 const { URL } = require('url');
