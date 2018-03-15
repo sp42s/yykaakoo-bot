@@ -21,8 +21,16 @@ const client = new Discord.Client()
 client.on('ready', () => {
     logger.info('I am ready!')
 })
+let idToMention = (id) => {
+    return `<@${id}>`
+}
 
 client.on('message', async message => {
+    if (message.channel.type === 'dm') {
+        console.log('moi1')
+        client.channels.find('id', '423935498621550613').send(`${idToMention(message.author.id)} kuiskasi minulle "${message.content}"`);
+        console.log('moi2')
+    }
     if (message.content.indexOf('😭') > -1) {
         try { await message.react('😭') } catch (e) { console.error(e) }
         //try {await message.channel.send(`Viestejä olipi ${message.channel.messages.length}`)} catch (e) {console.error(e)}
@@ -72,6 +80,3 @@ client.on('message', async message => {
 
 client.login(config.discordBotToken)
 
-let idToMention = (id) => {
-    return `<@${id}>`
-}

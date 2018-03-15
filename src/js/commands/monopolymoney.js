@@ -1,5 +1,4 @@
 import * as axios from 'axios'
-import * as players from '../../../config/players.json'
 import * as prefixes from '../../../config/prefixes.json'
 import * as Promise from 'bluebird'
 import { logger } from '../lib/logger'
