@@ -1,7 +1,7 @@
-import { logger } from '../lib/logger'
+import logger from '../lib/logger'
 import * as Promise from 'bluebird'
-import config from '../../../config/config.json'
-import auth from '../../../config/auth.json'
+import config from '../config/config.json'
+import auth from '../config/auth.json'
 import * as axios from 'axios'
 const { URL } = require('url');
 

@@ -1,8 +1,9 @@
 //@ts-check
-import * as Discord from 'discord.js'
-import { logger } from './lib/logger'
-import config from '../../config/auth.json'
-import {
+import { Client } from 'discord.js'
+import logger from './lib/logger'
+import auth from './config/auth.json'
+import config from './config/config.json'
+import { 
     handleTopScoresCommand,
     handleSingleScoreCommand,
     handleWeeklyRunCommand,
@@ -15,8 +16,7 @@ import { cheerUp, mock } from './commands/random'
 import { WowLogs } from './commands'
 
 logger.info(`bot starting ${new Date}`)
-
-const client = new Discord.Client()
+const client = new Client()
 
 client.on('ready', () => {
     logger.info('I am ready!')
@@ -27,13 +27,13 @@ let idToMention = (id) => {
 
 client.on('message', async message => {
     if (message.channel.type === 'dm') {
-        console.log('moi1')
-        client.channels.find('id', '423935498621550613').send(`${idToMention(message.author.id)} kuiskasi minulle "${message.content}"`);
-        console.log('moi2')
+
+
+        
+        client.channels.find('id', config.dm.publishChannel).send(`${idToMention(message.author.id)} kuiskasi minulle "${message.content}"`)
     }
     if (message.content.indexOf('😭') > -1) {
         try { await message.react('😭') } catch (e) { console.error(e) }
-        //try {await message.channel.send(`Viestejä olipi ${message.channel.messages.length}`)} catch (e) {console.error(e)}
 
     }
     if (message.content.substring(0, 1) === '§') {
@@ -78,5 +78,5 @@ client.on('message', async message => {
     }
 });
 
-client.login(config.discordBotToken)
+client.login(auth.discordBotToken)
 

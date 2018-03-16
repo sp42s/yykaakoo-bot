@@ -1,7 +1,7 @@
 "use strict"
 import axios from 'axios'
 import moment from 'moment'
-import auth from '../../../config/auth'
+import auth from '../config/auth'
 import * as Promise from 'bluebird'
 
 

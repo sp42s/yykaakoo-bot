@@ -1,9 +1,9 @@
 //@ts-check
 "use strict"
-import { logger } from '../lib/logger'
+import logger from '../lib/logger'
 const { URL } = require('url');
-import auth from '../../../config/auth'
-import config from '../../../config/config'
+import auth from '../config/auth'
+import config from '../config/config'
 import * as axios from 'axios'
 import * as Promise from 'bluebird'
 import { setTimeout } from 'timers';

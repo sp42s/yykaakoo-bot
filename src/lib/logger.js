@@ -14,4 +14,4 @@ logger.add(new winston.transports.Console({
 }));
 logger.level = 'debug';
 
-export { logger }
+export default logger 

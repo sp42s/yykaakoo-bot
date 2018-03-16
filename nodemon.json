@@ -4,6 +4,6 @@
         "*src/**"
     ],
     "watch": [
-        "dist/yykaakoo.bundle.js"
+        "dist/main.js"
       ]
 }
