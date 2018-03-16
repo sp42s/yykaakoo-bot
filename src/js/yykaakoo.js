@@ -13,6 +13,7 @@ import { handleCurrentWeatherCommand } from './commands/weather'
 import { handlePriceCommand } from './commands/monopolymoney'
 import { cheerUp, mock } from './commands/random'
 import { WowLogs } from './commands'
+import progress from './commands/progress'
 
 logger.info(`bot starting ${new Date}`)
 
@@ -48,7 +49,8 @@ client.on('message', async message => {
             'viikonmytyt': handleWeeklyRunCommand,
             'onnettomat': handleMissingMythicsCommand,
             'sää': handleCurrentWeatherCommand,
-            'hinta': handlePriceCommand
+            'hinta': handlePriceCommand,
+            'progress': progress.handleMessage
         }
 
         let args = message.content.substring(1).trim().split(' ')
@@ -70,10 +72,16 @@ client.on('message', async message => {
             logger.info(`no such command '${command}'`)
         }
 
-        if (reply && reply.length > 0) {
+        if (reply && reply.length > 0 && !reply.embed) {
             sentMessage.edit(reply)
                 .then(msg => console.log(`end of yykaakoo sent a reply of [${msg.content}]`))
                 .catch(console.error)
+        }
+        if (reply && reply.embed) {
+            sentMessage.edit('')
+                .then(msg => console.log(`end of yykaakoo sent a reply of [${msg.content}]`))
+                .catch(console.error)
+            message.channel.send(reply)
         }
     }
 });
