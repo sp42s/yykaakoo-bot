@@ -1,5 +1,5 @@
 #Apikeystuff
-config/auth.json
+src/**/auth.json
 
 #build dir
 dist/

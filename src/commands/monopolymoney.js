@@ -1,8 +1,8 @@
 import * as axios from 'axios'
-import * as prefixes from '../../../config/prefixes.json'
+import * as prefixes from '../config/prefixes.json'
 import * as Promise from 'bluebird'
-import { logger } from '../lib/logger'
-import config from '../../../config/config.json'
+import logger from '../lib/logger'
+import config from '../config/config.json'
 
 const block = '```'
 

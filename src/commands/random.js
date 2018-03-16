@@ -1,4 +1,4 @@
-import { logger } from '../lib/logger'
+import logger from '../lib/logger'
 
 let cheerUp = (userId) => {
     return new Promise((resolve, reject) => {
