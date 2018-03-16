@@ -11,7 +11,6 @@ const progress = {
             const result2 = await axios.get(url)
             const dom = new JSDOM(result2.data)
             const proge = dom.window.document.querySelector('.ratingProgress').querySelector('b').innerHTML
-            const msg = `Killan ${guild.charAt(0).toUpperCase()}${guild.slice(1)}-${realm}-${region.toUpperCase()} progress: ${proge}. Realm rank: ${result.data.realm_rank}, ${region.toUpperCase()} rank: ${result.data.area_rank}, World rank: ${result.data.world_rank}. Score: ${result.data.score}`
             let response = {
                 embed: {
                     color: 3447003,
