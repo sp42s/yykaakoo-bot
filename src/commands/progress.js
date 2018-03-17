@@ -1,53 +1,50 @@
 import axios from 'axios'
-import jsdom from 'jsdom'
-
-const { JSDOM } = jsdom;
 
 const progress = {
-    getWowProgress: async (guild = 'ryöstöretki', realm = 'darksorrow', region = 'eu') => {
-        const url = encodeURI(`https://www.wowprogress.com/guild/${region}/${realm}/${guild}`)
+    getProgress: async (guild = 'ryöstöretki', realm = 'darksorrow', region = 'eu') => {
+        const wowProgressUrl = encodeURI(`https://www.wowprogress.com/guild/${region}/${realm}/${guild}`)
+        const raiderIoUrl = encodeURI(`https://raider.io/api/v1/guilds/profile?region=${region}&realm=${realm}&name=${guild}&fields=raid_progression,raid_rankings`)
         try {
-            const result = await axios.get(`${url}/json_rank`)
-            const result2 = await axios.get(url)
-            const dom = new JSDOM(result2.data)
-            const proge = dom.window.document.querySelector('.ratingProgress').querySelector('b').innerHTML
+            const result = await axios.get(raiderIoUrl)
+            const result2 = await axios.get(`${wowProgressUrl}/json_rank`)
+            const raidName = 'antorus-the-burning-throne'
+            const rank = result.data.raid_rankings[Object.keys(result.data.raid_rankings)[Object.keys(result.data.raid_rankings).length - 1]]
+            const proge = result.data.raid_progression[`${raidName}`].summary
+            const score = result2.data.score
             let response = {
                 embed: {
                     color: 3447003,
                     title: `${guild.charAt(0).toUpperCase()}${guild.slice(1)} ${realm.charAt(0).toUpperCase()}${realm.slice(1)}-${region.toUpperCase()} progress`,
-                    url,
+                    url: wowProgressUrl,
                     description: '',
                     fields: [
                         {
-                            name: 'Progress',
+                            name: `Antorus, the Burning Throne progress:`,
                             value: proge
                         },
                         {
                             name: 'Realm rank:',
-                            value: result.data.realm_rank
+                            value: rank.mythic.realm
                         },
                         {
                             name: 'World rank:',
-                            value: result.data.world_rank
+                            value: rank.mythic.world
                         },
                         {
-                            name: 'Score',
-                            value: result.data.score
+                            name: 'WowProgress score:',
+                            value: score
                         }
-                    ],
-                    footer: {
-                        text: '© Rösörbot'
-                    }
+                    ]
                 }
             }
             return response
         } catch (err) {
-            throw Error('Error in getWowProgress: ', err)
+            throw Error('Error in getProgress: ', err)
         }
     },
     handleMessage: async (params) => {
         try {
-            const wowProgress = await progress.getWowProgress(params[0], params[1], params[2])
+            const wowProgress = await progress.getProgress(params[0], params[1], params[2])
             return wowProgress
         } catch (err) {
             console.log('error in handleMessage:', err)
@@ -56,5 +53,4 @@ const progress = {
     }
 }
 
-console.log("Asdasd")
 export default progress
