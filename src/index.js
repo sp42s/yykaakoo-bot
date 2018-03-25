@@ -15,6 +15,7 @@ import { handleCurrentWeatherCommand } from './commands/weather'
 import { handlePriceCommand } from './commands/monopolymoney'
 import { cheerUp, mock } from './commands/random'
 import { WowLogs } from './commands'
+import progress from './commands/progress'
 
 logger.info(`bot starting ${new Date}`)
 const client = new Client()
@@ -68,7 +69,7 @@ client.on('message', async message => {
       reply = 'Koitappa jotain näistä: ' + Object.keys(simpleCommands).reduce((s1, s2) => s1 + ', ' + s2)
       logger.info(`no such command '${command}'`)
     }
-
+    
     if (reply && reply.length > 0) {
       sentMessage.edit(reply)
         .then(msg => console.log(`end of yykaakoo sent a reply of [${msg.content}]`))
