@@ -1,11 +1,10 @@
 const webpack = require('webpack')
-const path = require('path')
 
 module.exports = {
   node: {
-    fs: "empty",
-    uws: "empty"
+    fs: "empty"
   },
+  devtool: 'source-map',
   performance: false,
   target: 'node'
 };
