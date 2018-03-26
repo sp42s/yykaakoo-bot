@@ -89,19 +89,17 @@ client.on('message', async message => {
 client.on('guildMemberAdd', member => {
   let msg = ''
   let block = '```'
-  msg += `Moi! Olen Ryöstöretken automaattinen robotti, jos sanot minulle yksityisviestissä jotain niin viesti ohjataan kaikkein johtajien näkyville,\n`
-  msg += `näin voit piilossa muilta laittaa vaikka hakemuksen koko johtoportaalle.\n`
-  msg += 'Johtajiin kuuluu Qini, Tanih, Zintti, Rekkisvaan, Astrà, 	Málli, Traja, alla vielä lyhyt kuvaus joukostamme ja vaikka et pelaisikaan wowia niin täällä voi hengailla!'
+  msg += 'Tervetuloa Ryöstöretken Discord palvelimelle! \n'
+  msg += `Olen Ryöstöretken automaattinen robotti, jos sanot minulle yksityisviestissä jotain niin viesti ohjataan kaikkein johtajien näkyville,\n`
+  msg += `näin voit piilossa muilta laittaa vaikka hakemuksen koko johtoportaalle tai palautetta ihan mistä vain mutta varo, voit lähettää vain muutaman viestin kerrallaan.\n`
+  msg += 'Johtajiin kuuluu Qini, Tanih, Zintti, Rekkisvaan, Astrà, Málli, Traja, alla vielä lyhyt kuvaus joukostamme ja vaikka et pelaisikaan wowia niin täällä voi hengailla!'
   member.send(msg)
     .then(sendMessage => {
       let secondMessage = ''
-      secondMessage += block
-      secondMessage += 'Tervetuloa Ryöstöretken Discord palvelimelle! \n'
-      secondMessage += 'Olemme Mythic raideja harrastava täysin suomalainen kilta Darksorrow palvelimella, progressimmse löytää osoitteesta https://www.wowprogress.com/guild/eu/darksorrow/Ry%C3%B6st%C3%B6retki\n'
+      secondMessage += 'Olemme Mythic raideja harrastava täysin suomalainen kilta Darksorrow palvelimella, progressimme löytää osoitteesta https://www.wowprogress.com/guild/eu/darksorrow/Ry%C3%B6st%C3%B6retki\n'
       secondMessage += 'Killan johtoporras koostuu suureksi osaksi Grim Batolilta kotoisin olevasta porukasta ja osa heistä pelannut jo vanillasta asti.\n'
       secondMessage += 'Minut on koodannut suureksi osaksi tämä tyyppi https://www.wowprogress.com/character/eu/darksorrow/Tanih\n'
-      secondMessage += 'Eikä hätää, en enää laita viestiä ilman syytä, tämä oli ainoa mainos\n'
-      secondMessage += block
+      secondMessage += 'Eikä hätää, en enää laita viestiä ilman syytä, tämä oli ainoa mainos!\n'
       member.send(secondMessage).catch(console.error)
     })
 });

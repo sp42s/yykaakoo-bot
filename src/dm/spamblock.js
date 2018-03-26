@@ -39,11 +39,11 @@ let handleDm = async (client, message) => {
         msgString = `ei viestejä käytettävissä, viestirajoitus poistuu klo: ${resetTime}`
       else
         msgString = `${messagesRemaining} viestiä käytettävissä`
-      sendMessage(`Kiitos viestistä,  ${msgString}.`).catch(console.error)
+      sendMessage(`Kiitos viestistä, se on ohjattu eteenpäin,  ${msgString}.`).catch(console.error)
     }
   } else {
     messageHistories.push({ id: sender, messageCount: 1, sendTime: moment().unix() })
-    sendMessage(`Kiitos viestistä, ${maxMessageCount - 1} viestiä käytettävissä.`).catch(console.error)
+    sendMessage(`Kiitos viestistä, se on ohjattu eteenpäin, ${maxMessageCount - 1} viestiä käytettävissä.`).catch(console.error)
   }
 }
 
