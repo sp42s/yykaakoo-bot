@@ -25,6 +25,7 @@ client.on('ready', () => {
 })
 
 let idToMention = (id) => {return `<@${id}>`}
+
 client.on('message', async message => {
   if (message.channel.type === 'dm' && client.user.id !== message.author.id) {
     try { await handleDm(client, message) } catch (e) { console.error(e) }
@@ -87,8 +88,9 @@ client.on('guildMemberAdd', member => {
   let msg = ''
   let block = '```'
   msg += 'Tervetuloa Ryöstöretken Discord palvelimelle! \n'
-  msg += `Olen Ryöstöretken automaattinen robotti, jos sanot minulle yksityisviestissä jotain niin viesti ohjataan kaikkein johtajien näkyville,\n`
-  msg += `näin voit piilossa muilta laittaa vaikka hakemuksen koko johtoportaalle tai palautetta ihan mistä vain mutta varo, voit lähettää vain muutaman viestin kerrallaan.\n`
+  msg += `Olen Ryöstöretken automaattinen robotti ja minulle voi kertoa asioita.\n`
+  msg += `Vapaasanaisen hakemuksen voi laittaa minulle yksityisviestinä ja se johtajien näkyville. Vastaamme ykistyisviestinä mahdollisimman pian.\n`
+  msg += `Otan myös palautetta vastaan samalla tavalla eli toisin sanoen ohjaan kaikki viestit johtajien nähtäviin mutta muista että voit lähettää vain muutaman viestin kerrallaan.\n`
   msg += 'Johtajiin kuuluu Qini, Tanih, Zintti, Rekkisvaan, Astrà, Málli, Traja, alla vielä lyhyt kuvaus joukostamme ja vaikka et pelaisikaan wowia niin täällä voi hengailla!'
   member.send(msg)
     .then(sendMessage => {
