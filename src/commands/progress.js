@@ -1,9 +1,12 @@
 import axios from 'axios'
+import logger from '../lib/logger'
 
 const progress = {
     getProgress: async (guild = 'ryöstöretki', realm = 'darksorrow', region = 'eu') => {
         const wowProgressUrl = encodeURI(`https://www.wowprogress.com/guild/${region}/${realm}/${guild}`)
         const raiderIoUrl = encodeURI(`https://raider.io/api/v1/guilds/profile?region=${region}&realm=${realm}&name=${guild}&fields=raid_progression,raid_rankings`)
+        logger.info(`wowprogurl ${wowProgressUrl}`)
+        logger.info(`raiderurl ${raiderIoUrl}`)
         try {
             const result = await axios.get(raiderIoUrl)
             const result2 = await axios.get(`${wowProgressUrl}/json_rank`)
@@ -39,11 +42,12 @@ const progress = {
             }
             return response
         } catch (err) {
-            throw Error('Error in getProgress: ', err)
+            throw err
         }
     },
     handleMessage: async (params) => {
         try {
+            logger.info(`progress params are ${params}`)
             const wowProgress = await progress.getProgress(params[0], params[1], params[2])
             return wowProgress
         } catch (err) {
