@@ -97,7 +97,7 @@ client.on('guildMemberAdd', member => {
       let secondMessage = ''
       secondMessage += 'Olemme Mythic raideja harrastava täysin suomalainen kilta Darksorrow palvelimella, progressimme löytää osoitteesta https://www.wowprogress.com/guild/eu/darksorrow/Ry%C3%B6st%C3%B6retki\n'
       secondMessage += 'Killan johtoporras koostuu suureksi osaksi Grim Batolilta kotoisin olevasta porukasta ja osa heistä pelannut jo vanillasta asti.\n'
-      secondMessage += 'Minut on koodannut suureksi osaksi tämä tyyppi https://www.wowprogress.com/character/eu/darksorrow/Tanih\n'
+      secondMessage += `Minut on koodannut suureksi osaksi tämä tyyppi https://www.wowprogress.com/character/eu/darksorrow/Tanih\n tai ${idToMention(226502292625424396)}`
       secondMessage += 'Eikä hätää, en enää laita viestiä ilman syytä, tämä oli ainoa mainos!\n'
       member.send(secondMessage).catch(console.error)
     })
