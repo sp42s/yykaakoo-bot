@@ -23,14 +23,11 @@ const client = new Client()
 client.on('ready', () => {
   logger.info('I am ready!')
 })
-let idToMention = (id) => {
-  return `<@${id}>`
-}
 
+let idToMention = (id) => {return `<@${id}>`}
 client.on('message', async message => {
   if (message.channel.type === 'dm' && client.user.id !== message.author.id) {
     try { await handleDm(client, message) } catch (e) { console.error(e) }
-    client.channels.find('id', config.dm.publishChannel).send(`${idToMention(message.author.id)} kuiskasi minulle "${message.content}"`)
     return
   }
   if (message.content.indexOf('😭') > -1) {

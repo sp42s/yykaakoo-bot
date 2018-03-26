@@ -10,6 +10,8 @@ const { URL } = require('url');
 
 const messageHistories = []
 
+let idToMention = (id) => {return `<@${id}>`}
+
 let handleDm = async (client, message) => {
   const sender = message.author.id
   const sendMessage = async (msg) => { try { await message.channel.send(msg) } catch (e) { throw e } }
@@ -40,10 +42,12 @@ let handleDm = async (client, message) => {
       else
         msgString = `${messagesRemaining} viestiä käytettävissä`
       sendMessage(`Kiitos viestistä, se on ohjattu eteenpäin,  ${msgString}.`).catch(console.error)
+      client.channels.find('id', config.dm.publishChannel).send(`${idToMention(sender)} kuiskasi minulle "${message.content}"`).catch(console.error)
     }
   } else {
     messageHistories.push({ id: sender, messageCount: 1, sendTime: moment().unix() })
     sendMessage(`Kiitos viestistä, se on ohjattu eteenpäin, ${maxMessageCount - 1} viestiä käytettävissä.`).catch(console.error)
+    client.channels.find('id', config.dm.publishChannel).send(`${idToMention(sender)} kuiskasi minulle "${message.content}"`).catch(console.error)
   }
 }
 
