@@ -89,7 +89,7 @@ client.on('guildMemberAdd', member => {
   let block = '```'
   msg += 'Tervetuloa Ryöstöretken Discord palvelimelle! \n'
   msg += `Olen Ryöstöretken automaattinen robotti ja minulle voi kertoa asioita.\n`
-  msg += `Vapaasanaisen hakemuksen voi laittaa minulle yksityisviestinä ja se johtajien näkyville. Vastaamme ykistyisviestinä mahdollisimman pian.\n`
+  msg += `Vapaasanaisen hakemuksen voi laittaa minulle yksityisviestinä ja laitan se johtajien näkyville. Vastaamme yksityisviestinä mahdollisimman pian.\n`
   msg += `Otan myös palautetta vastaan samalla tavalla eli toisin sanoen ohjaan kaikki viestit johtajien nähtäviin mutta muista että voit lähettää vain muutaman viestin kerrallaan.\n`
   msg += 'Johtajiin kuuluu Qini, Tanih, Zintti, Rekkisvaan, Astrà, Málli, Traja, alla vielä lyhyt kuvaus joukostamme ja vaikka et pelaisikaan wowia niin täällä voi hengailla!'
   member.send(msg)
