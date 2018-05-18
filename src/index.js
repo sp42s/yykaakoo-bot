@@ -34,6 +34,8 @@ client.on('message', async message => {
   }
   if (message.content.indexOf('😭') > -1) {
     try { await message.react('😭') } catch (e) { console.error(e) }
+  } if (message.content.toLowerCase().indexOf('poliisi') > -1) {
+    try { await message.channel.send('👮') } catch (e) { console.error(e) }
   }
   if (message.content.substring(0, 1) === '§') {
     let reply;
