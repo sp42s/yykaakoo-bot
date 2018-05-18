@@ -16,6 +16,7 @@ import { handlePriceCommand } from './commands/monopolymoney'
 import { cheerUp, mock } from './commands/random'
 import { WowLogs } from './commands'
 import progress from './commands/progress'
+import isArgusDead from './commands/isargusdead'
 
 logger.info(`bot starting ${new Date}`)
 const client = new Client()
@@ -47,9 +48,25 @@ client.on('message', async message => {
       'onnettomat': handleMissingMythicsCommand,
       'sää': handleCurrentWeatherCommand,
       'hinta': handlePriceCommand,
-      'progress': progress.handleMessage
+      'progress': progress.handleMessage,
+      'onkoarguskuollut': isArgusDead
     }
 
+    let commandPlaceholders = {
+      'lumoukset': 'Etsitään lumouksettomia...',
+      'parhaatscoret': 'Katsotaanpa ketä on paras ja ketä ei...',
+      'score': 'Score vai bore? no kohta nähdään...',
+      'kannusta': 'Hyvä kannustaja! Kannustus tulossa...',
+      'hauku': 'Miksi haluat haukkua?', 
+      'logs': 'Rupeatko metsuriksi? odota ole hyvä...',
+      'viikonmytyt': 'Katsotaanpa onko joku jo kyllästynyt tähän aivottomaan grindiin...',
+      'onnettomat': 'Vai ponnettomat? tsekataanpa...',
+      'sää': 'Pilvistä mahdollisella lihapullia, heh...', 
+      'hinta': 'What will you be doing when the hodlers take over the world?',
+      'progress': 'jokohan tämä on tosi, x/y=1 given that x is current kills and y is maximum kills',
+      'onkoarguskuollut': 'tarkistetaanpa...',
+    }
+    console.log()
     let args = message.content.substring(1).trim().split(' ')
     if (!args[0]) return
     logger.info(`received parms ${args}`)
@@ -59,6 +76,7 @@ client.on('message', async message => {
     let sentMessage = await message.channel.send('Hetki, käsittelen...')
     if (simpleCommands[command]) {
       try {
+        sentMessage = await sentMessage.edit(commandPlaceholders[command])
         reply = await simpleCommands[command](params, sentMessage, message)
       } catch (error) {
         logger.error(error.stack)
